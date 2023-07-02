@@ -14,7 +14,7 @@ func NewRepository() Repository {
 
 func InitializeData(repo Repository) {
 	post := testdata.Post()
-	_, err := repo.save(post)
+	_, err := repo.Save(post)
 	if err != nil {
 		return
 	}
@@ -36,7 +36,7 @@ func TestSave(t *testing.T) {
 	t.Run("게시글 저장", func(t *testing.T) {
 		want := testdata.Post()
 
-		got, err := repo.save(want)
+		got, err := repo.Save(want)
 		if err != nil {
 			t.Errorf("데이터 저장에 실패했습니다. 실패 사유 : %q", err)
 		}

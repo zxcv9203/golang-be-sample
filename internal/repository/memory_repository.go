@@ -9,26 +9,26 @@ type MemoryRepository struct {
 	store map[int64]model.Post
 }
 
-func (m *MemoryRepository) save(post model.Post) (model.Post, error) {
+func (m *MemoryRepository) Save(post model.Post) (model.Post, error) {
 	size := int64(len(m.store) + 1)
 	post.Id = size
 	m.store[size] = post
 	return post, nil
 }
 
-func (m *MemoryRepository) update(id int64, post model.Post) (model.Post, error) {
+func (m *MemoryRepository) Update(id int64, post model.Post) (model.Post, error) {
 	return post, nil
 }
 
-func (m *MemoryRepository) findById(id int64) (model.Post, error) {
+func (m *MemoryRepository) FindById(id int64) (model.Post, error) {
 	return model.Post{}, nil
 }
 
-func (m *MemoryRepository) findAll(request page.Request) ([]model.Post, error) {
+func (m *MemoryRepository) FindAll(request page.Request) ([]model.Post, error) {
 	return []model.Post{}, nil
 }
 
-func (m *MemoryRepository) deleteById(id int64) error {
+func (m *MemoryRepository) DeleteById(id int64) error {
 	return nil
 
 }
