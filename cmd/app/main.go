@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"github.com/gofiber/fiber/v2"
+	"github.com/zxcv9203/golang-be-sample/internal/config"
+	"github.com/zxcv9203/golang-be-sample/internal/transport/rest"
 	"log"
 )
 
@@ -15,6 +17,9 @@ func main() {
 
 func startFiber(port string) {
 	app := fiber.New()
+
+	handler := config.InitDependencies()
+	rest.SetRoutes(app, handler)
 
 	err := app.Listen(":" + port)
 	if err != nil {
