@@ -9,6 +9,12 @@ type MemoryRepository struct {
 	store map[int64]model.Post
 }
 
+func NewMemoryRepository() *MemoryRepository {
+	return &MemoryRepository{
+		store: make(map[int64]model.Post),
+	}
+}
+
 func (m *MemoryRepository) Save(post model.Post) (model.Post, error) {
 	size := int64(len(m.store) + 1)
 	post.Id = size

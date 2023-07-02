@@ -6,14 +6,14 @@ import (
 	"testing"
 )
 
-func NewService() Service {
+func NewMockService() Service {
 	return Service{
 		repo: &repository.MockRepository{},
 	}
 }
 
 func TestSave(t *testing.T) {
-	service := NewService()
+	service := NewMockService()
 
 	t.Run("[성공] 게시글 저장", func(t *testing.T) {
 		request := testdata.PostCreateRequest()

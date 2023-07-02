@@ -13,8 +13,8 @@ func Post() model.Post {
 	}
 }
 
-func PostCreateRequest() request.Post {
-	return request.Post{
+func PostCreateRequest() *request.Post {
+	return &request.Post{
 		Title:   "test",
 		Content: "test-content",
 	}

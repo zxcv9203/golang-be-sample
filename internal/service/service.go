@@ -10,7 +10,13 @@ type Service struct {
 	repo repository.Repository
 }
 
-func (s *Service) Save(request request.Post) int64 {
+func NewService(r repository.Repository) Service {
+	return Service{
+		repo: r,
+	}
+}
+
+func (s *Service) Save(request *request.Post) int64 {
 	post := request.ToEntity()
 	save, err := s.repo.Save(post)
 	if err != nil {
