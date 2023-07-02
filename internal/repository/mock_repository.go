@@ -1,9 +1,9 @@
 package repository
 
 import (
-	"github.com/zxcv9203/fiber-post/internal/model"
-	"github.com/zxcv9203/fiber-post/pkg/page"
-	"github.com/zxcv9203/fiber-post/testdata"
+	"github.com/zxcv9203/golang-be-sample/internal/model"
+	"github.com/zxcv9203/golang-be-sample/pkg/page"
+	"github.com/zxcv9203/golang-be-sample/testdata"
 )
 
 type MockRepository struct {

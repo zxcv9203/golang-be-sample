@@ -1,6 +1,6 @@
 package request
 
-import "github.com/zxcv9203/fiber-post/internal/model"
+import "github.com/zxcv9203/golang-be-sample/internal/model"
 
 type Post struct {
 	Title   string

@@ -1,8 +1,8 @@
 package testdata
 
 import (
-	"github.com/zxcv9203/fiber-post/internal/model"
-	"github.com/zxcv9203/fiber-post/internal/transport/rest/request"
+	"github.com/zxcv9203/golang-be-sample/internal/model"
+	"github.com/zxcv9203/golang-be-sample/internal/transport/rest/request"
 )
 
 func Post() model.Post {

@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/zxcv9203/fiber-post/internal/model"
-	"github.com/zxcv9203/fiber-post/testdata"
+	"github.com/zxcv9203/golang-be-sample/internal/model"
+	"github.com/zxcv9203/golang-be-sample/testdata"
 	"testing"
 )
 
