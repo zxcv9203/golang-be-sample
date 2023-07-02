@@ -5,7 +5,7 @@ import (
 	"github.com/zxcv9203/fiber-post/pkg/page"
 )
 
-type repository interface {
+type Repository interface {
 	findById(id int64) (model.Post, error)
 	save(post model.Post) (model.Post, error)
 	update(id int64, post model.Post) (model.Post, error)
