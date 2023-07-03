@@ -7,4 +7,5 @@ import (
 func SetRoutes(app *fiber.App, handler *Handler) {
 
 	app.Post("/posts", handler.CreateHandler)
+	app.Put("/posts/:id", handler.UpdateHandler)
 }

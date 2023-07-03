@@ -47,10 +47,56 @@ func TestSave(t *testing.T) {
 	})
 }
 
+func TestUpdate(t *testing.T) {
+	repo := NewRepository()
+
+	beforeEach := func() {
+		InitializeData(repo)
+	}
+
+	teardown := func() {
+		cleanData(repo)
+	}
+
+	t.Run("[성공] 게시글 업데이트", func(t *testing.T) {
+		beforeEach()
+
+		want := testdata.Post()
+		id := want.Id
+
+		got, _ := repo.Update(id, want)
+
+		assertEqual(t, got, want)
+
+		teardown()
+	})
+
+	t.Run("[실패] 게시글 ID가 존재하지 않는 경우 에러 반환", func(t *testing.T) {
+		beforeEach()
+
+		want := testdata.Post()
+		id := int64(0)
+
+		_, err := repo.Update(id, want)
+
+		assertError(t, err)
+
+		teardown()
+	})
+}
+
 func assertEqual(t *testing.T, got model.Post, want model.Post) {
 	t.Helper()
 
 	if got != want {
 		t.Errorf("저장된 데이터가 요청한 데이터와 다릅니다. got : %q want : %q ", got, want)
+	}
+}
+
+func assertError(t *testing.T, err error) {
+	t.Helper()
+
+	if err == nil {
+		t.Errorf("에러가 발생하지 않았습니다.")
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/zxcv9203/golang-be-sample/internal/service"
 	"github.com/zxcv9203/golang-be-sample/internal/transport/rest/request"
+	"strconv"
 )
 
 type Handler struct {
@@ -23,6 +24,25 @@ func (h *Handler) CreateHandler(c *fiber.Ctx) error {
 		return c.Status(400).SendString(err.Error())
 	}
 	response := h.service.Save(req)
+
+	return c.JSON(response)
+}
+
+func (h *Handler) UpdateHandler(c *fiber.Ctx) error {
+	id, err := strconv.ParseInt(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	req := new(request.Post)
+	if err := c.BodyParser(req); err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	response, err := h.service.Update(id, req)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
 
 	return c.JSON(response)
 }

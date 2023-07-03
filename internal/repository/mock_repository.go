@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/zxcv9203/golang-be-sample/internal/model"
 	"github.com/zxcv9203/golang-be-sample/pkg/page"
 	"github.com/zxcv9203/golang-be-sample/testdata"
@@ -14,6 +15,11 @@ func (m *MockRepository) Save(post model.Post) (model.Post, error) {
 }
 
 func (m *MockRepository) Update(id int64, post model.Post) (model.Post, error) {
+	wrongId := int64(0)
+	if id == wrongId {
+		return model.Post{}, fmt.Errorf("게시글이 존재하지 않습니다. 게시글 ID : %d", id)
+	}
+	post.Id = id
 	return post, nil
 }
 

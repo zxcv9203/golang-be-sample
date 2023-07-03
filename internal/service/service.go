@@ -20,8 +20,18 @@ func (s *Service) Save(request *request.Post) int64 {
 	post := request.ToEntity()
 	save, err := s.repo.Save(post)
 	if err != nil {
-		log.Print(err)
+		log.Println(err)
 	}
 
 	return save.Id
+}
+
+func (s *Service) Update(id int64, request *request.Post) (int64, error) {
+	post := request.ToEntity()
+	update, err := s.repo.Update(id, post)
+	if err != nil {
+		return 0, err
+	}
+
+	return update.Id, nil
 }

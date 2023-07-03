@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"fmt"
 	"github.com/zxcv9203/golang-be-sample/internal/model"
 	"github.com/zxcv9203/golang-be-sample/pkg/page"
 )
@@ -23,6 +24,11 @@ func (m *MemoryRepository) Save(post model.Post) (model.Post, error) {
 }
 
 func (m *MemoryRepository) Update(id int64, post model.Post) (model.Post, error) {
+	if _, ok := m.store[id]; !ok {
+		return model.Post{}, fmt.Errorf("게시글이 존재하지 않습니다. 게시글 ID : %d", id)
+	}
+	post.Id = id
+	m.store[id] = post
 	return post, nil
 }
 
