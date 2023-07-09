@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/zxcv9203/golang-be-sample/internal/model"
 	"github.com/zxcv9203/golang-be-sample/internal/repository"
 	"github.com/zxcv9203/golang-be-sample/internal/transport/rest/request"
 	"log"
@@ -34,4 +35,12 @@ func (s *Service) Update(id int64, request *request.Post) (int64, error) {
 	}
 
 	return update.Id, nil
+}
+
+func (s *Service) FindById(id int64) (model.Post, error) {
+	post, err := s.repo.FindById(id)
+	if err != nil {
+		return model.Post{}, err
+	}
+	return post, nil
 }

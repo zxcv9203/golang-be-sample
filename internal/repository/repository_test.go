@@ -85,7 +85,47 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
-func assertEqual(t *testing.T, got model.Post, want model.Post) {
+func TestFindById(t *testing.T) {
+	repo := NewRepository()
+
+	beforeEach := func() {
+		InitializeData(repo)
+	}
+
+	teardown := func() {
+		cleanData(repo)
+	}
+
+	t.Run("[성공] 게시글 단일 조회", func(t *testing.T) {
+		beforeEach()
+
+		want := testdata.Post()
+		id := want.Id
+
+		got, err := repo.FindById(id)
+		if err != nil {
+			t.Errorf("에러가 발생했습니다.\n에러 내용 : %q", err)
+		}
+
+		assertEqual(t, got, want)
+
+		teardown()
+	})
+
+	t.Run("[실패] 존재하지 않는 게시글 ID를 전달하는 경우 에러 반환", func(t *testing.T) {
+		beforeEach()
+
+		wrongId := int64(0)
+
+		_, err := repo.FindById(wrongId)
+
+		assertError(t, err)
+
+		teardown()
+	})
+}
+
+func assertEqual(t *testing.T, got any, want any) {
 	t.Helper()
 
 	if got != want {

@@ -47,7 +47,31 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
-func assertEquals(t *testing.T, got int64, want int64) {
+func TestFindById(t *testing.T) {
+	service := NewMockService()
+
+	t.Run("[성공] 게시글 조회", func(t *testing.T) {
+		want := testdata.Post()
+		id := want.Id
+
+		got, err := service.FindById(id)
+		if err != nil {
+			t.Errorf("에러 발생 : %q", err)
+		}
+
+		assertEquals(t, got, want)
+	})
+
+	t.Run("[실패] 존재하지 않는 게시글 ID를 전달하는 경우 에러 반환", func(t *testing.T) {
+		wrongId := int64(0)
+
+		_, err := service.FindById(wrongId)
+
+		assertError(t, err)
+	})
+}
+
+func assertEquals(t *testing.T, got any, want any) {
 	t.Helper()
 
 	if got != want {
@@ -56,5 +80,9 @@ func assertEquals(t *testing.T, got int64, want int64) {
 }
 
 func assertError(t *testing.T, err error) {
+	t.Helper()
 
+	if err == nil {
+		t.Errorf("에러가 발생하지 않았습니다.")
+	}
 }

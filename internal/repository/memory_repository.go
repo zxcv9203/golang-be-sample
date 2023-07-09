@@ -24,16 +24,20 @@ func (m *MemoryRepository) Save(post model.Post) (model.Post, error) {
 }
 
 func (m *MemoryRepository) Update(id int64, post model.Post) (model.Post, error) {
-	if _, ok := m.store[id]; !ok {
+	if m.notExistsPost(id) {
 		return model.Post{}, fmt.Errorf("게시글이 존재하지 않습니다. 게시글 ID : %d", id)
 	}
+
 	post.Id = id
 	m.store[id] = post
 	return post, nil
 }
 
 func (m *MemoryRepository) FindById(id int64) (model.Post, error) {
-	return model.Post{}, nil
+	if m.notExistsPost(id) {
+		return model.Post{}, fmt.Errorf("게시글이 존재하지 않습니다. 게시글 ID : %d", id)
+	}
+	return m.store[id], nil
 }
 
 func (m *MemoryRepository) FindAll(request page.Request) ([]model.Post, error) {
@@ -43,4 +47,9 @@ func (m *MemoryRepository) FindAll(request page.Request) ([]model.Post, error) {
 func (m *MemoryRepository) DeleteById(id int64) error {
 	return nil
 
+}
+
+func (m *MemoryRepository) notExistsPost(id int64) bool {
+	_, ok := m.store[id]
+	return !ok
 }

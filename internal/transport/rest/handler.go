@@ -17,7 +17,7 @@ func NewHandler(s service.Service) *Handler {
 	}
 }
 
-func (h *Handler) CreateHandler(c *fiber.Ctx) error {
+func (h *Handler) Create(c *fiber.Ctx) error {
 	req := new(request.Post)
 
 	if err := c.BodyParser(req); err != nil {
@@ -28,7 +28,7 @@ func (h *Handler) CreateHandler(c *fiber.Ctx) error {
 	return c.JSON(response)
 }
 
-func (h *Handler) UpdateHandler(c *fiber.Ctx) error {
+func (h *Handler) Update(c *fiber.Ctx) error {
 	id, err := strconv.ParseInt(c.Params("id"), 10, 64)
 	if err != nil {
 		return c.Status(400).SendString(err.Error())
@@ -40,6 +40,20 @@ func (h *Handler) UpdateHandler(c *fiber.Ctx) error {
 	}
 
 	response, err := h.service.Update(id, req)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+
+	return c.JSON(response)
+}
+
+func (h *Handler) FindById(c *fiber.Ctx) error {
+	id, err := strconv.ParseInt(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	response, err := h.service.FindById(id)
 	if err != nil {
 		return c.Status(500).SendString(err.Error())
 	}
