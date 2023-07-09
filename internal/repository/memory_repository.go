@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 	"github.com/zxcv9203/golang-be-sample/internal/model"
-	"github.com/zxcv9203/golang-be-sample/pkg/page"
+	"github.com/zxcv9203/golang-be-sample/internal/transport/rest/request"
 )
 
 type MemoryRepository struct {
@@ -40,9 +40,26 @@ func (m *MemoryRepository) FindById(id int64) (model.Post, error) {
 	return m.store[id], nil
 }
 
-func (m *MemoryRepository) FindAll(request page.Request) ([]model.Post, error) {
+func (m *MemoryRepository) FindAll(request request.Page) []model.Post {
+	storeSize := int64(len(m.store))
+	requestSize := request.Size()
+	startIdx := request.Page()
 
-	return []model.Post{}, nil
+	if requestSize > storeSize {
+		requestSize = storeSize
+	}
+
+	posts := make([]model.Post, 0, requestSize)
+
+	for i := int64(0); i < requestSize; i++ {
+		idx := i + startIdx
+		if m.notExistsPost(idx) {
+			continue
+		}
+		posts = append(posts, m.store[idx])
+	}
+
+	return posts
 }
 
 func (m *MemoryRepository) DeleteById(id int64) error {

@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/zxcv9203/golang-be-sample/internal/repository"
 	"github.com/zxcv9203/golang-be-sample/testdata"
+	"reflect"
 	"testing"
 )
 
@@ -90,6 +91,27 @@ func TestDeleteById(t *testing.T) {
 
 		assertError(t, err)
 	})
+}
+
+func TestFind(t *testing.T) {
+	service := NewMockService()
+
+	t.Run("[성공] 게시글 조회", func(t *testing.T) {
+		request := testdata.PageRequest()
+		want := testdata.Posts()
+
+		got := service.Find(request)
+
+		assertSliceEqual(t, got, want)
+	})
+}
+
+func assertSliceEqual(t *testing.T, got any, want any) {
+	t.Helper()
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("저장된 데이터가 요청한 데이터와 다릅니다. got : %q want : %q ", got, want)
+	}
 }
 
 func assertEquals(t *testing.T, got any, want any) {

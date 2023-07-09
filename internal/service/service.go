@@ -52,3 +52,7 @@ func (s *Service) DeleteById(id int64) error {
 	}
 	return nil
 }
+
+func (s *Service) Find(request request.Page) []model.Post {
+	return s.repo.FindAll(request)
+}

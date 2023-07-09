@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/zxcv9203/golang-be-sample/internal/model"
 	"github.com/zxcv9203/golang-be-sample/testdata"
+	"reflect"
 	"testing"
 )
 
@@ -13,10 +14,12 @@ func NewRepository() Repository {
 }
 
 func InitializeData(repo Repository) {
-	post := testdata.Post()
-	_, err := repo.Save(post)
-	if err != nil {
-		return
+	posts := testdata.Posts()
+	for _, post := range posts {
+		_, err := repo.Save(post)
+		if err != nil {
+			return
+		}
 	}
 }
 
@@ -161,6 +164,40 @@ func TestDeleteById(t *testing.T) {
 
 		teardown()
 	})
+}
+
+func TestFind(t *testing.T) {
+	repo := NewRepository()
+
+	beforeEach := func() {
+		InitializeData(repo)
+	}
+
+	teardown := func() {
+		cleanData(repo)
+	}
+
+	t.Run("[성공] 게시글 조회", func(t *testing.T) {
+		beforeEach()
+
+		request := testdata.PageRequest()
+		want := testdata.Posts()
+
+		got := repo.FindAll(request)
+
+		assertSliceEqual(t, got, want)
+
+		teardown()
+	})
+
+}
+
+func assertSliceEqual(t *testing.T, got any, want any) {
+	t.Helper()
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("저장된 데이터가 요청한 데이터와 다릅니다. got : %q want : %q ", got, want)
+	}
 }
 
 func assertEqual(t *testing.T, got any, want any) {

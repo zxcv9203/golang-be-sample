@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 	"github.com/zxcv9203/golang-be-sample/internal/model"
-	"github.com/zxcv9203/golang-be-sample/pkg/page"
+	"github.com/zxcv9203/golang-be-sample/internal/transport/rest/request"
 	"github.com/zxcv9203/golang-be-sample/testdata"
 )
 
@@ -29,8 +29,8 @@ func (m *MockRepository) FindById(id int64) (model.Post, error) {
 	return testdata.Post(), nil
 }
 
-func (m *MockRepository) FindAll(request page.Request) ([]model.Post, error) {
-	return []model.Post{testdata.Post()}, nil
+func (m *MockRepository) FindAll(request request.Page) []model.Post {
+	return testdata.Posts()
 }
 
 func (m *MockRepository) DeleteById(id int64) error {

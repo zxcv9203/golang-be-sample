@@ -73,3 +73,28 @@ func (h *Handler) DeleteById(c *fiber.Ctx) error {
 	}
 	return nil
 }
+
+func (h *Handler) Find(c *fiber.Ctx) error {
+	pageRequest, err := parsePage(c.Query("size"), c.Query("page"))
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	response := h.service.Find(pageRequest)
+
+	return c.JSON(response)
+}
+
+func parsePage(size string, page string) (request.Page, error) {
+	parseSize, err := strconv.ParseInt(size, 10, 64)
+	if err != nil {
+		parseSize = 20
+	}
+	parsePage, err := strconv.ParseInt(page, 10, 64)
+	if err != nil {
+		parsePage = 1
+	}
+
+	pageRequest := request.NewPageRequest(parseSize, parsePage)
+	return pageRequest, nil
+}
