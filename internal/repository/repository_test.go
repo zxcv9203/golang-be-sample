@@ -125,6 +125,44 @@ func TestFindById(t *testing.T) {
 	})
 }
 
+func TestDeleteById(t *testing.T) {
+	repo := NewRepository()
+
+	beforeEach := func() {
+		InitializeData(repo)
+	}
+
+	teardown := func() {
+		cleanData(repo)
+	}
+
+	t.Run("[성공] 게시글 단일 삭제", func(t *testing.T) {
+		beforeEach()
+
+		want := testdata.Post()
+		id := want.Id
+
+		err := repo.DeleteById(id)
+		if err != nil {
+			t.Errorf("에러가 발생했습니다.\n에러 내용 : %q", err)
+		}
+
+		teardown()
+	})
+
+	t.Run("[실패] 존재하지 않는 게시글 ID를 전달하는 경우 에러 반환", func(t *testing.T) {
+		beforeEach()
+
+		wrongId := int64(0)
+
+		err := repo.DeleteById(wrongId)
+
+		assertError(t, err)
+
+		teardown()
+	})
+}
+
 func assertEqual(t *testing.T, got any, want any) {
 	t.Helper()
 

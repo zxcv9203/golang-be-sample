@@ -34,6 +34,9 @@ func (m *MockRepository) FindAll(request page.Request) ([]model.Post, error) {
 }
 
 func (m *MockRepository) DeleteById(id int64) error {
+	if m.validatePostId(id) {
+		return fmt.Errorf("게시글이 존재하지 않습니다. 게시글 ID : %d", id)
+	}
 	return nil
 }
 

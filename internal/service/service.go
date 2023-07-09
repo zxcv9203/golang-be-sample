@@ -44,3 +44,11 @@ func (s *Service) FindById(id int64) (model.Post, error) {
 	}
 	return post, nil
 }
+
+func (s *Service) DeleteById(id int64) error {
+	err := s.repo.DeleteById(id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

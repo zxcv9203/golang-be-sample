@@ -60,3 +60,16 @@ func (h *Handler) FindById(c *fiber.Ctx) error {
 
 	return c.JSON(response)
 }
+
+func (h *Handler) DeleteById(c *fiber.Ctx) error {
+	id, err := strconv.ParseInt(c.Params("id"), 10, 64)
+	if err != nil {
+		return c.Status(400).SendString(err.Error())
+	}
+
+	err = h.service.DeleteById(id)
+	if err != nil {
+		return c.Status(500).SendString(err.Error())
+	}
+	return nil
+}

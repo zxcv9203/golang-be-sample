@@ -71,6 +71,27 @@ func TestFindById(t *testing.T) {
 	})
 }
 
+func TestDeleteById(t *testing.T) {
+	service := NewMockService()
+
+	t.Run("[성공] 게시글 단일 삭제", func(t *testing.T) {
+		want := testdata.Post().Id
+
+		err := service.DeleteById(want)
+		if err != nil {
+			t.Errorf("에러 발생 : %q", err)
+		}
+	})
+
+	t.Run("[실패] 존재하지 않는 게시글 ID를 전달하는 경우 에러 반환", func(t *testing.T) {
+		wrongId := int64(0)
+
+		err := service.DeleteById(wrongId)
+
+		assertError(t, err)
+	})
+}
+
 func assertEquals(t *testing.T, got any, want any) {
 	t.Helper()
 

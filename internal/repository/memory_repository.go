@@ -41,12 +41,16 @@ func (m *MemoryRepository) FindById(id int64) (model.Post, error) {
 }
 
 func (m *MemoryRepository) FindAll(request page.Request) ([]model.Post, error) {
+
 	return []model.Post{}, nil
 }
 
 func (m *MemoryRepository) DeleteById(id int64) error {
+	if m.notExistsPost(id) {
+		return fmt.Errorf("게시글이 존재하지 않습니다. 게시글 ID : %d", id)
+	}
+	delete(m.store, id)
 	return nil
-
 }
 
 func (m *MemoryRepository) notExistsPost(id int64) bool {
