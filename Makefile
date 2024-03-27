@@ -40,7 +40,7 @@ END			=	\033[0m
 ##
 ##
 
-## help	: Algorim Makefile 명령에 대해 출력해줍니다.
+## help	: golang-be-sample Makefile 명령에 대해 출력해줍니다.
 ##
 help:
 			@sed -n '/@sed/!s/## //p' Makefile
